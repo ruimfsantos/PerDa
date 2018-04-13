@@ -1,5 +1,5 @@
-# PerDa
+# PerDa4Too
 
-Projecto de tese de Mestrado de Informática e de Computadores
+Projecto de Mestrado de Informática e de Computadores
 
 --- Em fase de testes para posterior divulgação ----
