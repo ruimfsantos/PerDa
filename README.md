@@ -1,4 +1,4 @@
-# PerDa4Too
+# PerDa4Disco
 
 Projecto de Mestrado de Informática e de Computadores
 
