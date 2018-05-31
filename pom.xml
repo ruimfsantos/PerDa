@@ -118,7 +118,7 @@
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath/>
-                        <argument>com.strider.datadefender.DataDefender</argument>
+                        <argument>PerDa.DataDefender</argument>
                         <argument>${execAppName}</argument>
                         <argument>${execAppFlag}</argument>
                     </arguments>
@@ -137,7 +137,7 @@
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
-                            <mainClass>com.strider.datadefender.DataDefender</mainClass>
+                            <mainClass>PerDa.DataDefender</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
