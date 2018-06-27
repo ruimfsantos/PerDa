@@ -1,8 +1,8 @@
 # PerDa2Disco - Personnal Data to Discovery (DataDefender/RedDataSense fork)
-========================================
+===========================================
 
-Table of content
-----------------
+Tabela de conteúdos
+-------------------
 - [Aviso](#Aviso)
 - [Características](#Características)
 - [Pré-requisitos](#Pré-requisitos)
