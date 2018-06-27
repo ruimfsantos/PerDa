@@ -24,7 +24,7 @@ As principais razões da derivação consistiram em:
 
 O código é considerado de fonte aberta sendo que está disponível. A licença é a mesma que o projeto original.
 
-A implementação é baseada em [Apache OpenNLP](https://opennlp.apache.org/)
+A implementação é baseada em [Apache OpenNLP](https://opennlp.apache.org/).
 
 
 Características
@@ -32,11 +32,11 @@ Características
 1. Identifica e considera dados pessoais usando o Reconhecimento Nominal de Entidades (todos fornecidos pelo OpenNLP), recorrendo a:
 	a) Modelos de Maximun Entropy;
 	b) Dicionários;
-	c) Expressões Regulares (REGEX)
-	d) Consulta especifica de padrões
+	c) Expressões Regulares (REGEX);
+	d) Consulta especifica de padrões.
 2. Permite a descoberta de dados pessoais em ficheiros estruturados e não estruturados.
-3. Pode ser executado em qualquer plataforma (sistemas operativos diferentes)
-4. Suporta as seguintes bases de dados: Oracle, MS SQL Server, DB2, MySQL e Postgres
+3. Pode ser executado em qualquer plataforma (sistemas operativos diferentes).
+4. Suporta as seguintes bases de dados: Oracle, MS SQL Server, DB2, MySQL e Postgres.
 
 
 Pré-requisitos
@@ -47,17 +47,17 @@ Pré-requisitos
 
 Compilar
 --------
-1. Faça o download do arquivo ZIP e descompacte num diretório à sua escolha, ou clone o repositório
-2. mvn install
-3. PerDa2Disco.jar estará localizado no destino do diretório "target"
-4. Deverá ajustar os ficheiros de propriedades
+1. Faça o download do arquivo ZIP e descompacte num diretório à sua escolha, ou clone o repositório.
+2. mvn install.
+3. PerDa2Disco.jar estará localizado no destino do diretório "target".
+4. Deverá ajustar os ficheiros de propriedades.
 
 
 Contribuir
 ----------
 Para quem gostar desta área e quiser contribuir, claramente que é encorajado a fazê-lo...
 
-Por favor, para contribuir, faça
+Por favor, para contribuir, agradeço que faça:
 1. Fork it
 2. Crie a sua ramificação (git checkout -b new-feature)
 3. Confirme as suas alterações (git commit -am 'Adicionar novo recurso')
@@ -77,7 +77,6 @@ Embora não tenha sido modificado a componente de anonymizer, o modo anonymizer 
 1. Descoberta de ficheiros (não estuturados);
 2. Identificação das tabelas e colunas (Estruturados);
 3. Descoberta do conteúdo de Bases de dados.
-Para modos de descoberta em dados estruturados, precisa fornecer
-o arquivo de propriedades da base dados que define a conectividade à mesma (DB.properties).
+Para modos de descoberta em dados estruturados, precisa fornecer o arquivo de propriedades da base dados que define a conectividade à mesma (DB.properties).
 
 Todos os modos suportam uma lista opcional de tabelas no final para usar para descobrir ou anonimizar uma tabela específica ou uma lista de tabelas.
