@@ -55,14 +55,14 @@ Compilar
 
 Contribuir
 ----------
-Se quiser pode contribuir....
+Para quem gostar desta área e quiser contribuir, claramente que é encorajado a fazê-lo...
 
-Os colaboradores são encorajados a desembolsar este repositório e a emitir pedidos pull. Se você gostaria de contribuir, por favor
+Por favor, para contribuir, faça
 1. Fork it
-2. Crie sua ramificação (git checkout -b new-feature)
-3. Confirme suas alterações (git commit -am 'Adicionar novo recurso')
+2. Crie a sua ramificação (git checkout -b new-feature)
+3. Confirme as suas alterações (git commit -am 'Adicionar novo recurso')
 4. Carregue para o Branch (git push origin new-feature)
-5. Criar nova solicitação pull (Pull Request)
+5. Criar uma nova solicitação pull (Pull Request)
 
 
 Executar
