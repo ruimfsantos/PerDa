@@ -22,7 +22,7 @@ As principais razões da derivação consistiram em:
 - Melhorar a eficiência de pesquisa (alargar a pesquisa em redes de computadores de uma forma remota e centralizada); 
 - Melhorar os relatórios (logs), preparando os resultados obtidos para facilitar a análise de risco na governação dos dados pessoais (de acordo com o RGPD).
 
-O código é considerado de fonte aberta sendo que está disponível. A licença é a mesma que o projeto original.
+O código é considerado de fonte aberta pelo que está disponível. A licença é a mesma que o projeto original.
 
 A implementação é baseada em [Apache OpenNLP](https://opennlp.apache.org/).
 
