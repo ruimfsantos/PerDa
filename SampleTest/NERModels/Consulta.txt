@@ -1,0 +1,4 @@
+## Personalizar uma Consulta Específica pretendida ##
+## Não é recomendado utilizar palavras simples. Poderá induzir a falsos positivos.. ##
+Substitua este texto pelo pretendido.
+Poderá colocar as linhas que quiser... mas não deverá deixar nenhuma linha em branco.
