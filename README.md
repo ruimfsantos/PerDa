@@ -4,15 +4,15 @@
 Table of content
 ----------------
 - [Aviso](#Aviso)
-- [Principais Características](#Principais Características)
+- [Características](#Características)
 - [Pré-requisitos](#Pré-requisitos)
-- [Construa a partir da fonte](#Construa a partir da fonte)
+- [Compilar](#Compilar)
 - [Contribua](#Contribua)
-- [Como Executar](#Como Executar)
+- [Executar](#Executar)
 
 
 Aviso
--------
+-----
 Este projecto nasceu no âmbito de um tese de dissertação de mestrado em informática e de computadores.
 E é uma derivação (fork) do trabalho original DataDefender (https://github.com/armenak/DataDefender) e de uma derivação chamada RedDataSense (https://github.com/redglue/redsense).
 As principais razões da derivação consistiram em:
@@ -27,8 +27,8 @@ O código é considerado de fonte aberta sendo que está disponível. A licença
 A implementação é baseada em [Apache OpenNLP](https://opennlp.apache.org/)
 
 
-Principais Características
---------
+Características
+---------------
 1. Identifica e considera dados pessoais usando o Reconhecimento Nominal de Entidades (todos fornecidos pelo OpenNLP), recorrendo a:
 	a) Modelos de Maximun Entropy;
 	b) Dicionários;
@@ -40,21 +40,21 @@ Principais Características
 
 
 Pré-requisitos
-----------------
+--------------
 1. JDK 1.8+
 2. Maven 3+
 
 
-Construa a partir da fonte
------------------
+Compilar
+--------
 1. Faça o download do arquivo ZIP e descompacte num diretório à sua escolha, ou clone o repositório
 2. mvn install
 3. PerDa2Disco.jar estará localizado no destino do diretório "target"
 4. Deverá ajustar os ficheiros de propriedades
 
 
-Contribua
-------------
+Contribuir
+----------
 Se quiser pode contribuir....
 
 Os colaboradores são encorajados a desembolsar este repositório e a emitir pedidos pull. Se você gostaria de contribuir, por favor
@@ -65,8 +65,8 @@ Os colaboradores são encorajados a desembolsar este repositório e a emitir ped
 5. Criar nova solicitação pull (Pull Request)
 
 
-Como Executar
-----------
+Executar
+--------
 O programa é para ser executado em linha de comando (cmd ou powershell).
 Para executar, primeiro construa a aplicação (ver tópico acima - mvn install). Este irá gerar um arquivo jar executável no diretório "target".
 Depois disso, você pode obter ajuda digitando:
