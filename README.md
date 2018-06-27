@@ -4,7 +4,7 @@
 Table of content
 ----------------
 - [Aviso](#Aviso)
-- [Principais Características](#Principais Características)
+- [Principais.Características](#Principais.Características)
 - [Pré-requisitos](#Pré-requisitos)
 - [Construa a partir da fonte](#Construa a partir da fonte)
 - [Contribua](#Contribua)
@@ -27,7 +27,7 @@ O código é considerado de fonte aberta sendo que está disponível. A licença
 A implementação é baseada em [Apache OpenNLP](https://opennlp.apache.org/)
 
 
-Principais Características
+Principais.Características
 --------
 1. Identifica e considera dados pessoais usando o Reconhecimento Nominal de Entidades (todos fornecidos pelo OpenNLP), recorrendo a:
 	a) Modelos de Maximun Entropy;
