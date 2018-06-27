@@ -1,5 +1,4 @@
 # PerDa2Disco - Personnal Data to Discovery (DataDefender/RedDataSense fork)
-===========================================
 
 Tabela de conteúdos
 -------------------
@@ -15,6 +14,7 @@ Aviso
 -----
 Este projecto nasceu no âmbito de um tese de dissertação de mestrado em informática e de computadores.
 E é uma derivação (fork) do trabalho original DataDefender (https://github.com/armenak/DataDefender) e de uma derivação chamada RedDataSense (https://github.com/redglue/redsense).
+
 As principais razões da derivação consistiram em:
 - Melhorar as técnicas usadas na descoberta de dados pessoais, potencialemente sensíveis, quer ao nível de dados estruturados e não estruturados;
 - Introdução de modelos na língua portuguesa;
