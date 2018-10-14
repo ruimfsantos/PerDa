@@ -29,14 +29,19 @@ A implementação é baseada em [Apache OpenNLP](https://opennlp.apache.org/).
 
 Características
 ---------------
-1. Identifica e considera dados pessoais usando o Reconhecimento Nominal de Entidades (todos fornecidos pelo OpenNLP), recorrendo a:
-	a) Modelos de Maximun Entropy;
-	b) Dicionários;
+1. Identifica e considera dados pessoais usando o Reconhecimento Nominal de Entidades (todos fornecidos pelo OpenNLP), recorrendo a 4 modos de descoberta:
+	a) Modelos de Maximun Entropy (ficheiros binários previamente treinados);
+	b) Dicionários (no formato XML);
 	c) Expressões Regulares (REGEX);
 	d) Consulta especifica de padrões.
 2. Permite a descoberta de dados pessoais em ficheiros estruturados e não estruturados.
-3. Pode ser executado em qualquer plataforma (sistemas operativos diferentes).
-4. Suporta as seguintes bases de dados: Oracle, MS SQL Server, DB2, MySQL e Postgres.
+3. Pesquisa integrada de mais do que um modelo e modo de descoberta.
+4. Pode ser executado em qualquer plataforma (sistemas operativos diferentes).
+5. Suporta as seguintes bases de dados: Oracle, MS SQL Server, DB2, MySQL e Postgres.
+6. Pesquisa de dados em pastas/subpastas, localmente ou em rede;
+7. Procura por amostragem aleatória;
+8. Resultados em ficheiro .csv (dataset);
+9. Alerta de Densidade de Risco.
 
 
 Pré-requisitos
@@ -80,3 +85,15 @@ Embora não tenha sido modificado a componente de anonymizer, o modo anonymizer 
 Para modos de descoberta em dados estruturados, precisa fornecer o arquivo de propriedades da base dados que define a conectividade à mesma (DB.properties).
 
 Todos os modos suportam uma lista opcional de tabelas no final para usar para descobrir ou anonimizar uma tabela específica ou uma lista de tabelas.
+
+Resultados
+--------
+Desenvolvida uma interface gráfica em HTML, recorrendo-se à linguagem de Javascript, utilizando a estrutura de trabalho da W3.CSS
+1. Dados não estruturados:
+	a) Agrupados para permitir conhecer o volume total de documentos existentes em relação à amostra dos dados analisados;
+	b) Densidade de risco num determinado repositório;
+	c) Tempos de localização e de execução.
+2. Dados estruturados:
+	a) Volume total de registos existentes (total de linhas existentes entre as várias tabelas) em relação aos registos da amostra;
+	b) Densidade de risco;
+	c) Tempo de execução da análise.
