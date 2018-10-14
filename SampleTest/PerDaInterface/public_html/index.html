@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>PerDa2Disco</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--css-->
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style_index.css">
+
+        <!--scripts-->
+        <script src="scripts/jquery.min.js"></script>
+        <script src="scripts/Chart.min.js"></script>
+        <script src="scripts/Chart.bundle.min.js"></script>
+        <script src="scripts/scripts_index.js"></script>
+    </head>
+    <body onload="javascript:loadCharts();">
+        <div class="header">
+            <div class="title">PerDa - Personal Data</div>
+            <div class="subtitle">Quadro de classificação dos resultados suspeitos</div>
+
+        </div>
+        <div class="firstArea">
+            <div class="totalDocumentos">
+                <div class="label" id="totalDocsLabel">Total de Documentos:</div>
+                <div id="totalDocs" class="value"></div>
+            </div>
+            <div class="totalDocumentos">
+                <div class="center">
+                    <div class="label" id="documentosAnalisadosLabel">Documentos Analisados:</div>
+                    <div id="documentosAnalisados" class="value"></div>
+                </div>
+            </div>
+            <div class="totalDocumentos">
+                <div id="densidadeRisco" class="value"></div>
+                <div class="label">Densidade de Risco:</div>
+            </div>
+        </div>
+        <div class="firstAreaSegundaLinha">
+            <div class="totalDocumentos">
+                <div class="label" id="tempoLocalizacaoLabel">Tempo de localização:</div>
+                <div id="tempoLocalizacao" class="value"></div>
+            </div>
+            <div class="totalDocumentos">
+                <div class="center">
+                    <div class="label" id="tempoAnaliseLabel">Tempo de Análise:</div>
+                    <div id="tempoAnalise" class="value"></div>
+                </div>
+            </div>
+            <div class="totalDocumentos">
+                <div id="densidadeRisco" class="value"></div>
+                <div class="label"> </div>
+            </div>
+        </div>
+        <div class="secondArea">
+            <div class="coluna">
+                <div class="areaGrafico">
+                    <div class="titulo">Tipo dos Dados Descobertos</div>
+                    <canvas id="chartTipoEntidade"></canvas>
+                </div>
+                <div class="areaBotao">
+                    <input type="button" value="Questionário" onclick="javascript:window.open('questionario.html', '_blank')"/>
+                </div>
+
+
+                <!-- Matriz de Classificação de Risco -->
+<!--                <div class="subColunaTable">
+                    <div class="subColunaTableRow">
+                        <div class="titulo">Critérios de Classificação do Risco</div>
+                        <img src="ClassificacaoDados5.png" class="imgIndex" />
+
+                    </div>
+                </div>
+-->
+                
+            </div>
+            <div class="coluna">
+                <div class="areaGrafico">
+                    <div class="titulo">Classificação de Risco</div>
+                    <canvas id="chartRisco"></canvas>
+
+                </div>
+
+                <div class="areaGraficoExtensao">
+                    <div class="titulo" id="graficoNegocio">Área de Negócio</div>
+                    <canvas id="chartExtensao"></canvas>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <!-- Tabela -->
+        <div class="w3-row-padding w3-container">
+            <div class="w3-content" >
+                <table id="testetable" class="w3-table-all">
+                </table>
+            </div>
+        </div>
+      
+    </body>
+</html>

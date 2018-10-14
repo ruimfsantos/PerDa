@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>PerdaDisco - Conformidade</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--css-->
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style_questionario.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!--scripts-->
+        <script src="scripts/jquery.min.js"></script>
+        <script src="scripts/Chart.min.js"></script>
+        <script src="scripts/Chart.bundle.min.js"></script>
+        <script src="scripts/scripts_questionario.js"></script>
+    </head>
+    <body onload="javascript:loadCharts();">
+        <div class="header">
+            <div class="title">PerDa - Personal Data</div>
+            <div class="subtitle">Questionário de avaliação</div>
+        </div>
+        <div class="mainArea">
+            <div class="coluna esquerda">
+                <form>
+
+                <!--    <div class="subtituloQuestionario">Controlo do acesso a sistemas e aplicações</div>
+
+                    <div class="pergunta" id="questao1">
+                        <span class="numeracao">01.</span> O processo de autenticação é iniciado mantido de uma forma segura (como por exemplo, o uso de palavra-passe)?
+                    </div>
+
+                    <div class="resposta">
+                        <input type="radio" name="questao1" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao1" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao2">
+                        <span class="numeracao">02.</span> As credenciais de inicio de sessão garantem a integridade e confidencialidade na comunicação entre as entidades tecnológicas? Se utiliza hash ou cifra.
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao2" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao2" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao3">
+                        <span class="numeracao">03.</span> A palavra-passe dos utilizadores é complexa e a sua dimensão é no mínimo de 9 caracteres?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao3" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao3" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao4">
+                        <span class="numeracao">04.</span> A palavra-passe dos administradores é complexa e a sua dimensão é no mínimo de 13 caracteres?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao4" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao4" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao5">
+                        <span class="numeracao">05.</span> Tem implementado um sistema de autenticação de multifactor? Isto é, se a palavra-passe é utilizada com a combinação de um outro fator (token, sms,…)
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao5" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao5" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao6">
+                        <span class="numeracao">06.</span> Possui bloqueio automático das estações de trabalho (computadores) após 5 minutos, no máximo?
+                    </div>
+
+                    <div class="resposta">
+                        <input type="radio" name="questao6" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao6" value="1">
+                        Não
+                        <br>
+                    </div>
+
+
+                    <div class="subtituloQuestionario">Politicas de privilégios mínimos</div>
+
+                    <div class="pergunta" id="questao7">
+                        <span class="numeracao">07.</span> Os perfis de utilizadores estão criados de acordo com os privilégios mínimos (principio da necessidade de executar)?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao7" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao7" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao8">
+                        <span class="numeracao">08.</span> As contas de acesso dos utilizadores estão de acordo com as suas funções e os privilégios de acesso estão associados às funções?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao8" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao8" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao9">
+                        <span class="numeracao">09.</span> O acesso ao tratamento de dados pessoais é efetuado através de estações de trabalho (computadores) específicos para o efeito?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao9" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao9" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao10">
+                        <span class="numeracao">10.</span> Estes computadores possuem configurações estáticas de configuração de rede e estão ligados a portas especificas de acesso?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao10" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao10" value="1">
+                        Não
+                        <br>
+                    </div>
+
+
+                    <div class="subtituloQuestionario">Monitorização</div>
+
+                    <div class="pergunta" id="questao11">
+                        <span class="numeracao">11.</span> Existem registos (logs) de todas as atividades referentes ao tratamento de dados (acesso, alteração, transferência, remoção)? Nomeadamente informação de quem acedeu, de onde acedeu, quando acedeu, a que dados acedeu e que ação foi efetuada? (ponderar apenas para os dados do artigo 9º).
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao11" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao11" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao12">
+                        <span class="numeracao">12.</span> Todas as contas dos utilizadores são auditáveis regularmente com uma periodicidade mínima de 180 dias para os utilizadores normais e 90 para os administradores?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao12" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao12" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao13">
+                        <span class="numeracao">13.</span> Possui mecanismos automáticos de alarmística para as contas de utilizadores sem atividade?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao13" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao13" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao14">
+                        <span class="numeracao">14.</span> Todos os registos (logs) de atividade são armazenados apenas em modo de leitura e são assinados digitalmente (de modo a preservar a sua integridade)?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao14" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao14" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao15">
+                        <span class="numeracao">15.</span> São armazenados os registos de todos os acessos? Incluindo as tentativas falhadas?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao15" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao15" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao16">
+                        <span class="numeracao">16.</span> Os registos de atividade (logs) armazenam o endereço de acesso (IP e porto), hostname, hash da conta do utilizador, registo do dia e hora ao segundo (timestamp) e a ação efetuada?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao16" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao16" value="1">
+                        Não
+                        <br>
+                    </div>
+
+
+                    <div class="subtituloQuestionario">Comunicação de dados</div>
+
+                    <div class="pergunta" id="questao17">
+                        <span class="numeracao">17.</span> Os dados são transmitidos de uma forma segura? Mascarados, anonimizados ou cifrados?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao17" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao17" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao18">
+                        <span class="numeracao">18.</span> Os dados pessoais armazenados (backups) encontram-se cifrados e assinados digitalmente?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao18" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao18" value="1">
+                        Não
+                        <br>
+                    </div>
+
+
+                    <div class="subtituloQuestionario">Conhecimento de segurança e dos regulamentos</div>
+
+                    <div class="pergunta" id="questao19">
+                        <span class="numeracao">19.</span> Conhece ou possui um inventário rigoroso com todos os sistemas relacionados com a recolha e tratamento de dados pessoais?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao19" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao19" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao20">
+                        <span class="numeracao">20.</span> Tem o vínculo contratual ou termo de consentimento por parte do titular de dados de todos os dados pessoais que recolhe e trata?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao20" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao20" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao21">
+                        <span class="numeracao">21.</span> Os elementos responsáveis pelo processo de recolha e tratamento dos dados pessoais possuem formação adequada às suas funções (nomeadamente sobre segurança de proteção e privacidade de dados)?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao21" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao21" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao22">
+                        <span class="numeracao">22.</span> Os responsáveis pelo processo de recolha e tratamento de dados pessoais estão sensibilizados e credenciados (qualificados) com as politicas e regulamentos em vigor?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao22" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao22" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao23">
+                        <span class="numeracao">23.</span> Possui um código de conduta elaborado, aprovado e divulgado?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao23" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao23" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao24">
+                        <span class="numeracao">24.</span> O acesso aos ativos da infraestrutura tecnológica está devidamente isolado e protegido?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao24" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao24" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao25">
+                        <span class="numeracao">25.</span> Existe monitorização e controlo dos espaços físicos dos ativos da infraestrutura?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao25" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao25" value="1">
+                        Não
+                        <br>
+                    </div>
+
+
+                    <div class="subtituloQuestionario">Utilizadores</div>
+
+                    <div class="pergunta" id="questao26">
+                        <span class="numeracao">26.</span> O acesso aos repositórios de dados pessoais está limitado apenas aos elementos responsáveis pelo seu tratamento?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao26" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao26" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao27">
+                        <span class="numeracao">27.</span> O acesso aos repositórios é efetuado por intermédio de aplicação (front-end)?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao27" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao27" value="1">
+                        Não
+                        <br>
+                    </div>-->
+
+                    <div class="pergunta" id="questao28">
+                        <span class="numeracao">28.</span> Existem elementos com capacidade de aceder diretamente aos repositórios sem ser por intermédio de aplicação dedicada para o efeito?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao28" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao28" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao29">
+                        <span class="numeracao">29.</span> Se respondeu afirmativamente à questão anterior, existem mecanismos de registos (logs) de atividade?
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao29" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao29" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="pergunta" id="questao30" >
+                        <span class="numeracao">30.</span> Tem o controlo positivo do perfil dos utilizadores que acedem à base de dados? administradores, utilizadores, 
+                    </div>
+                    <div class="resposta">
+                        <input type="radio" name="questao30" value="0">
+                        Sim
+                        <br>
+                        <input type="radio" name="questao30" value="1">
+                        Não
+                        <br>
+                    </div>
+
+                    <div class="errorMessage">&nbsp;</div>
+                    <input type="button" id="btGerarRelatorio" onclick="javascript:geraRelatorio();" value="Gerar Relatório">
+
+                </form>
+            </div>
+
+            <div class="coluna direita">
+                <div class="firstArea">
+                    <div class="totalDocumentos">
+                        <div class="label">Total de Documentos:</div>
+                        <div id="totalDocs" class="value"></div>
+                    </div>
+                    <div class="totalDocumentos">
+                        <div class="center">
+                            <div class="label">Documentos Analisados:</div>
+                            <div id="documentosAnalisados" class="value"></div>
+                        </div>
+                    </div>
+                    <div class="totalDocumentos">
+                        <div id="densidadeRisco" class="value"></div>
+                        <div class="label">Densidade Risco:</div>
+                    </div>
+                </div>
+                <div class="secondArea">
+                    <div class="coluna">
+                        <div class="areaGrafico">
+                            <canvas id="chartRisco"></canvas>
+
+                        </div>
+
+                    </div>
+                    <div class="coluna">
+                        <div class="areaGrafico">
+
+                            <canvas id="chartConformidade"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Tabela com a lista dos resultados e gráfico de barras -->
+                <div class="secondArea">
+                    <div class="areaTabela" >
+                        <table id="tabela" class="w3-table-all"></table>
+                    </div>
+                    <div class="graficoBarras">
+                        <canvas id="chartTipoEntidade" class="tipoEntidade"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,258 @@
+/* HEADER */
+.header{
+    display: block;
+    float: left;
+    width: 100%;
+    background-color: #182439;
+}
+
+.title{
+    margin: 10px auto;
+    font-size: 45px;
+    text-align: center;
+    color: #eee;
+}
+
+.subtitle{
+    margin: -25px auto 20px;
+    font-size: 26px;
+    text-align: center;
+    color: #eee;
+}
+
+
+/* BODY */
+.firstArea{
+    display:block;
+    float:left;
+    width: 100%;
+    margin-top: 10px;
+}
+
+input[type=button]{
+    display:block;
+    float:right;
+    margin-right: 10px;
+    background-color: #182439;
+    color: #eee;
+    cursor: pointer;
+}
+
+/* index*/
+.label{
+    margin-left:15px;
+    margin-right: 5px;
+    font-size: 14px;
+    color: #182439;
+    display:inline;
+    float:left;
+}
+
+.value{
+    display:inline;
+    float:left;
+    font-weight:bold;
+    margin-top:-2px;
+}
+
+.totalDocumentos{
+    display:block;
+    float:left;
+    width: 33%;
+}
+
+.totalDocumentos:last-child>div{
+    float:right;
+}
+
+.center{
+    display:block;
+    margin:0 auto;
+    width: fit-content;
+}
+
+.secondArea{
+    display:block;
+    width: 100%;
+    float:left;
+}
+
+.coluna{
+    display:block;
+    float:left;
+    width:50%;
+}
+
+.areaGrafico{
+    margin: 20px;
+    width: 100%;
+}
+
+.graficoBarras{
+    margin: 20px;
+    width: calc(90% - 20px);
+    
+}
+
+
+#testetable{
+    margin-top:80px;
+}
+
+#testetable tr:first-child td{
+    text-align:center;
+    font-weight:bold;
+}
+
+
+
+/*questionario*/
+.mainArea{
+    display:block;
+    float:left;
+    width:100%;
+}
+
+#btGerarRelatorio{
+    display: block;
+    float: none;
+    margin: 10px 0 40px 250px;
+}
+
+.pergunta{
+    margin: 10px 0 0 15px;
+    width:100%;
+    display:block;
+    float:left;
+}
+
+.resposta{
+    margin-left: 50px;
+}
+
+.subtituloQuestionario{
+    margin: 10px 0 0 15px;
+    font-weight: bold;
+    width:100%;
+    display:block;
+    float:left; 
+    color: darkblue;
+}
+
+
+/*relatorio*/
+#relatorio td{
+    border: 1px solid black;
+    padding:10px;
+}
+
+.perguntaRelatorio{
+    background-color: powderblue;
+
+}
+.planoMitigacao{
+    display:inline;
+    float:left;
+}
+
+.conforme{
+    background-color: greenyellow;
+    display:block;
+    float:left;
+}
+
+.naoConforme{
+    background-color: pink;
+    display:inline;
+    float:left;
+}
+
+.areaConformidade{
+    display:block;
+    float:left;
+    width:100%;
+    margin-top: 40px;
+}
+
+.titleConformidade, .valueConformidade{
+    display: inline;
+    float:left;
+}
+
+.titleConformidade{
+    margin-left:30px;
+}
+
+.valueConformidade{
+    margin-left:3px;
+}
+
+.firstArea, .secondArea{
+    display:none;
+}
+
+.mainArea>.coluna{
+    display:block;
+    float:left;
+    width: 100%;
+}
+
+
+.secondArea>.coluna{
+    width:50%;
+}
+
+.secondArea>.coluna:first-child{
+    width:50%;
+}
+
+.areaRisco{
+    font-weight: bold;
+    font-size: 28px;
+    color: #000000;
+    display: block;
+    width: 100%;
+    text-align: right;
+}
+
+#chartConformidade{
+    margin-top: 30px;
+}
+
+.errorMessage{
+    margin-left: 40px;
+    margin-top: 20px;
+    font-size: 36px;
+}
+
+.tituloQuestionario{
+    display: none;
+    float:left;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.avaliacaoRisco{
+    display: block;
+    float:left;
+    width: 50%;
+    margin-top:5px;
+}
+
+.avaliacaoRisco input{
+    margin-right: 3px;
+}
+
+.avaliacaoRisco span{
+    margin-right: 3px;
+    font-weight: bold;
+}
+
+.btAvRisco{
+    display: block;
+    float: left;
+    width: 100%;
+    background-color: red;
+}
