@@ -89,9 +89,10 @@ Todos os modos suportam uma lista opcional de tabelas no final para usar para de
 
 Resultados
 --------
-Desenvolvida uma interface gráfica em HTML, recorrendo-se à linguagem de Javascript, utilizando a estrutura de trabalho da W3.CSS
+Desenvolvida uma interface gráfica em HTML, recorrendo-se à linguagem de Javascript, utilizando a estrutura de trabalho da W3.CSS.
+Os dados descobertos são agrupados de acordo:
 1. Dados não estruturados:
-	a) Agrupados para permitir conhecer o volume total de documentos existentes em relação à amostra dos dados analisados;
+	a) Volume total de documentos existentes em relação à amostra dos dados analisados;
 	b) Densidade de risco num determinado repositório;
 	c) Tempos de localização e de execução.
 2. Dados estruturados:
