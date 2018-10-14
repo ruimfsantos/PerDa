@@ -89,7 +89,8 @@ Todos os modos suportam uma lista opcional de tabelas no final para usar para de
 
 Resultados
 --------
-Desenvolvida uma interface gráfica em HTML, recorrendo-se à linguagem de Javascript, utilizando a estrutura de trabalho da W3.CSS.
+Desenvolvida uma interface gráfica em HTML, recorrendo-se à linguagem de Javascript, utilizando a estrutura de trabalho da W3.CSS ( https://www.w3schools.com/js/default.asp).
+
 Os dados descobertos são agrupados de acordo:
 1. Dados não estruturados:
 	a) Volume total de documentos existentes em relação à amostra dos dados analisados;
