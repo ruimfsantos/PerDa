@@ -1,1 +1,6 @@
-SampleTest
+Logs
+SampleTeste\Logs
+SampleTeste\NERModels
+target
+SampleTeste\*.properties
+SampleTeste\*.jar
