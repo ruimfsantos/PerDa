@@ -17,11 +17,13 @@ Este projecto nasceu no âmbito de um tese de dissertação de mestrado em infor
 E é uma derivação (fork) do trabalho original DataDefender (https://github.com/armenak/DataDefender) e de uma derivação chamada RedDataSense (https://github.com/redglue/redsense).
 
 As principais razões da derivação consistiram em:
-- Melhorar as técnicas usadas na descoberta de dados pessoais, potencialemente sensíveis, quer ao nível de dados estruturados e não estruturados;
+- Melhorar as técnicas usadas na descoberta de dados pessoais, potencialmente sensíveis, quer ao nível de dados estruturados e não estruturados;
 - Introdução de modelos na língua portuguesa;
 - Adição de procura por padrões no texto, permitindo encontrar termos compostos;
+- Inclusão de validadores para as expressões regulares (Cartão Cidadão, NIF, NISS, Cartões de Crédito, IBAN e NIB)
 - Melhorar a eficiência de pesquisa (alargar a pesquisa em redes de computadores de uma forma remota e centralizada); 
-- Melhorar os relatórios (logs), preparando os resultados obtidos para facilitar a análise de risco na governação dos dados pessoais (de acordo com o RGPD).
+- Melhorar os relatórios (logs), preparando os resultados obtidos para facilitar a análise de risco na governação dos dados pessoais (de acordo com o RGPD);
+- Criação de interface gráfica para interpretação dos resultados.
 
 O código é considerado de fonte aberta pelo que está disponível. A licença é a mesma que o projeto original.
 
