@@ -1,5 +1,4 @@
-Para correr o teste deverá:
-
+Para executar o teste deverá:
   1. Copiar os ficheiros .jar da pasta \target para a pasta SampleTest
   2. Adaptar os ficheiros proprieties
 
