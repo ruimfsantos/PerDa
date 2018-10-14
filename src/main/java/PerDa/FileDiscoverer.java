@@ -15,6 +15,9 @@
  */
 package PerDa;
 
+import PerDa.database.DBConnection;
+import PerDa.database.DatabaseAnonymizerException;
+import PerDa.database.IDBFactory;
 import static java.lang.Double.parseDouble;
 import static org.apache.log4j.Logger.getLogger;
 import static PerDa.utils.AppProperties.loadProperties;
@@ -41,6 +44,9 @@ import opennlp.tools.util.Span;
 
 import PerDa.file.metadata.FileMatchMetaData;
 import PerDa.utils.CommonUtils;
+import java.awt.Desktop;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 
 import opennlp.tools.dictionary.Dictionary;
 import opennlp.tools.namefind.DictionaryNameFinder;
@@ -58,6 +64,10 @@ import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -83,6 +93,11 @@ public class FileDiscoverer extends Discoverer {
     private static String[] modelList;
     private final ArrayList<String> nomeFicheiros = new ArrayList<String>();
     protected List<FileMatchMetaData> fileMatches;
+
+    EscreverFicheiroResumo efResumo = new EscreverFicheiroResumo();
+    EscreverFicheiroGovernacao efGovernacao = new EscreverFicheiroGovernacao();
+    
+    String tempoLocalizacao = "";
 
     @SuppressWarnings("unchecked")
     public List<FileMatchMetaData> discover(final Properties dataDiscoveryProperties)
@@ -111,54 +126,50 @@ public class FileDiscoverer extends Discoverer {
         finalList = ListUtils.union(finalList, fileMatches);
 
         log.info("");
-        log.info(CommonUtils.fixedLengthString('=', +80));;
         log.info(CommonUtils.fixedLengthString('=', +80));
         log.info(" -> Quadro resumo dos resultados suspeitos:");
-        log.info("    (ler 4 colunas: Pasta, Nome Ficheiro, Risco, [ Tipo de dados ])\n");
-        
-        int auxTamAuxLogs = 0;
-        
-         for (final FileMatchMetaData data : finalList) {
-             auxTamAuxLogs += data.getRepository().split(",").length;
-         }
+        log.info("    (ler 6 colunas: Pasta; Nome Ficheiro; Classificação Risco; [ Tipo de dados ]; Nr Dados Encontrados; Tamanho Documento)\n");
+
+        efResumo.cabecalhoCSVResumoFile();
+        efGovernacao.cabecalhoCSVGovernacaoFile();
+        int auxTamAuxLogs = finalList.size();
 
         String[][] auxLogs = new String[auxTamAuxLogs][5];
         int aux = 0;
 
         // Print the suspect results
         for (final FileMatchMetaData data : finalList) {
-            
-            String[] auxRep= data.getRepository().split(",");
-            
-            for(int sRep= 0 ; sRep < auxRep.length; sRep++){
-                // Agregação dos resultados para o ficheiro log/cmd
-                log.info("    - "
-                        + data.getDirectory() + ", "
-                        + data.getFileName() + ", "
-                        + data.getGrauRisco() + ", "
-                        //   + probability + ", "
-                        //   + data.getModel() + ", "
-                        + "[ " + data.getDictionariesFound() + " ]");
 
-                // Agregação dos resultados para impressão do csv
-                auxLogs[aux][0] = auxRep[sRep];
-                String[] auxFilename = data.getFileName().split("\\.");
+            // Agregação dos resultados para o ficheiro log/cmd  
+            log.info("    - "
+                    + data.getDirectory() + ";"
+                    + data.getFileName() + ";"
+                    + data.getGrauRisco() + ";"
+                    //   + probability + ", "
+                    //   + data.getModel() + ", "
+                    + "[ " + data.getDictionariesFound() + " ]" + ";"
+                    + data.getTokenNr() + ";"
+                    + data.getCountWord());
 
-                // TODO: Criar parametro de entrada para a aplicação
-                boolean edocMode = false;
+            efResumo.escreverCSVResumo(data.getFileExtension(), data.getDirectory(), data.getFileName(), data.getDictionariesFound(), data.getGrauRisco(), finalList.size(), data.getTokenNr());
 
-                if (edocMode) {
-                    auxLogs[aux][1] = getDocProcessType(data.getDirectory());
-                } else {
-                    auxLogs[aux][1] = auxFilename.length > 1 ? auxFilename[auxFilename.length - 1] : auxFilename[0];
-                }
+            efGovernacao.escreverCSVGovernacao(data.getFileName(), data.getFileExtension(), data.getGrauRisco(), data.getRepository(), data.getDirectory(), data.getDictionariesFound());
 
-                auxLogs[aux][2] = data.getDictionariesFound();
-                auxLogs[aux][4] = "" + data.getGrauRisco();
-                aux++;
-            }
+            // Agregação dos resultados para impressão do csv
+            auxLogs[aux][0] = data.getRepository();
+            String[] auxFilename = data.getFileName().split("\\.");
+
+            auxLogs[aux][1] = auxFilename.length > 1 ? auxFilename[auxFilename.length - 1] : auxFilename[0];
+
+            auxLogs[aux][2] = data.getDictionariesFound();
+            auxLogs[aux][4] = "" + data.getGrauRisco();
+            aux++;
         }
 
+        
+
+        /*  Runtime rt = Runtime.getRuntime();
+        rt.exec("start PerDaInterface\\public_html\\index.html");*/
         // Last information. End Program. Print the execution time and date.
         final long endTime = System.currentTimeMillis();
 
@@ -169,11 +180,21 @@ public class FileDiscoverer extends Discoverer {
         log.info("");
         log.info("    Execution time: " + formatter.format((endTime - startTime) / 1000d) + " seconds");
 
+        efResumo.escreverFicheirosLocalizados(tempoLocalizacao, formatter.format((endTime - startTime) / 1000d));
+        
         DateFormat dateFormat = new SimpleDateFormat("E, d MMM HH:mm:ss '('zZ')' y"); // semana, dia mês hora fuzo ano
         Date date = new Date();
         log.info("    Finished at   : " + dateFormat.format(date));
         log.info(CommonUtils.fixedLengthString('=', +80));
         log.info("");
+
+        // Apresentar os resultados de uma forma gráfica em WEB      
+        File htmlFile = new File("PerDaInterface\\public_html\\index.html");
+        Desktop.getDesktop().browse(htmlFile.toURI());
+        Thread.sleep(200);
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_F11);
+        robot.keyRelease(KeyEvent.VK_F11);
 
         // Apoio para escrita no csv
         int[] auxLogsContagem = new int[finalList.size()];
@@ -199,8 +220,7 @@ public class FileDiscoverer extends Discoverer {
             }
         }
 
-        EscreverFicheiro ef = new EscreverFicheiro();
-
+        EscreverFicheiroEAPY ef = new EscreverFicheiroEAPY();
         ef.cabecalhoCSV();
 
         for (int i = 0; i < finalList.size(); i++) {
@@ -256,6 +276,8 @@ public class FileDiscoverer extends Discoverer {
     // Task: Discovery files according select directory and filetype 
     public void descobertaFicheiros(final Properties fileDiscoveryProperties) throws IOException, NullPointerException {
 
+        final long startTime = System.currentTimeMillis();
+
         fileMatches = new ArrayList<>();
         String[] directoryList = null;
         String[] inclusionList = null;
@@ -299,6 +321,22 @@ public class FileDiscoverer extends Discoverer {
             log.info("");
             log.info("      Localizado " + nomeFicheiros.size() + " ficheiro(s)");
 
+            log.info("");
+            log.info(CommonUtils.fixedLengthString('-', +70));
+            log.info(" -> Scan files completed");
+
+            // imprimir o tempo que demorou a executar a procura dos ficheiros a analisar
+            final long endTime = System.currentTimeMillis();
+            final NumberFormat formatter = new DecimalFormat("#0.00");
+
+            log.info("");
+            log.info("    Execution time: " + formatter.format((endTime - startTime) / 1000d) + " seconds");
+            tempoLocalizacao = formatter.format((endTime - startTime) / 1000d);
+            DateFormat dateFormat = new SimpleDateFormat("E, d MMM HH:mm:ss '('zZ')' y"); // semana, dia mês hora fuzo ano
+            Date date = new Date();
+            log.info("    Finished at   : " + dateFormat.format(date));
+
+            efResumo.setNumeroFicheirosEncontrados(efResumo.getNumeroFicheirosEncontrados() + nomeFicheiros.size());
         }
     }
 
@@ -307,6 +345,8 @@ public class FileDiscoverer extends Discoverer {
 
         // Start running NLP algorithms for each column and collect percentage
         fileMatches = new ArrayList<>();
+
+        int countWord = 0;
 
         final DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
@@ -356,6 +396,10 @@ public class FileDiscoverer extends Discoverer {
             posFicheiro.add(aux);
         }
 
+        // Escrever csv com todos os resultados encontrados
+        EscreverFicheiroResultado ef = new EscreverFicheiroResultado();
+        ef.cabecalhoCSVResultadoFile();
+
         String ficheiro;
         for (int pos : posFicheiro) {
             ficheiro = nomeFicheiros.get(pos);
@@ -369,8 +413,27 @@ public class FileDiscoverer extends Discoverer {
             try {
                 // read content file...
                 // TODO: Tentar melhorar para forçar a leitura a utf-8!!!!
-                final InputStream stream = new FileInputStream(ficheiro);
+                InputStream stream = new FileInputStream(ficheiro);
+
                 //final InputStreamReader stream = new InputStreamReader(new FileInputStream(ficheiro), "UTF-8");
+                countWord = 0;
+
+                InputStreamReader input = new InputStreamReader(stream);
+                BufferedReader reader = new BufferedReader(input);
+                String line;
+                while ((line = reader.readLine()) != null) {
+
+                    if (!(line.equals(""))) {
+
+                        // \\s+ is the space delimiter in java
+                        String[] wordList = line.split("\\s+");
+
+                        countWord += wordList.length;
+
+                    }
+                }
+
+                stream = new FileInputStream(ficheiro);
 
                 if (stream != null) {
                     parser.parse(stream, handler, metadata);
@@ -382,7 +445,7 @@ public class FileDiscoverer extends Discoverer {
                 log.info(CommonUtils.fixedLengthString('=', +70));
                 log.info(" -> Unable to read: " + ficheiro + ". Ignoring...");
                 log.info(CommonUtils.fixedLengthString('-', +70));
-                
+
             } catch (Throwable npe) {
                 log.info("");
                 log.info(CommonUtils.fixedLengthString('=', +70));
@@ -410,7 +473,28 @@ public class FileDiscoverer extends Discoverer {
                 final String repositorio = fileDiscoveryProperties.getProperty("directories");
                 repositorioList = repositorio.split(",");
 
-                final FileMatchMetaData result = new FileMatchMetaData(caminho, nomeFicheiro, repositorio);
+                String myRep = "";
+
+                FileMatchMetaData result = null;
+
+                for (String rep : repositorioList) {
+                    int auxBarRep = 0;
+                    while (rep.charAt(auxBarRep) == '\\') {
+                        auxBarRep++;
+                    }
+
+                    int auxBarCaminho = 0;
+                    while (caminho.charAt(auxBarCaminho) == '\\') {
+                        auxBarCaminho++;
+                    }
+
+                    if (caminho.substring(auxBarCaminho).length() >= rep.substring(auxBarRep).length() && caminho.substring(auxBarCaminho,
+                            rep.substring(auxBarRep).length() + auxBarCaminho).equals(rep.substring(auxBarRep))) {
+                        myRep = rep;
+                    }
+                }
+
+                result = new FileMatchMetaData(caminho, nomeFicheiro, myRep);
 
                 ArrayList<ResultadoSuspeito> listaResultadoSuspeito = new ArrayList<ResultadoSuspeito>();
 
@@ -426,13 +510,13 @@ public class FileDiscoverer extends Discoverer {
                     switch (modelo) {
 
                         case "NEREntropy": // Start NEREntropy OpenNLP implementation
-                            
+
                             log.info("");
                             log.info(" >> Maximun Entropy tokenizer process starting ...");
 
                             final String models = fileDiscoveryProperties.getProperty("models");
                             modelList = models.split(",");
-                            
+
                             log.debug("");
                             log.debug("    - MaxEnt Model list: " + Arrays.toString(modelList));
 
@@ -521,7 +605,7 @@ public class FileDiscoverer extends Discoverer {
                             break; // End of NERDictionary
 
                         case "NERRegex": // Aplicação do modelo REGEX
-                            
+
                             log.info("");
                             log.info(" >> Applying REGEX models...");
 
@@ -583,7 +667,7 @@ public class FileDiscoverer extends Discoverer {
                             break; // End of NERRegex
 
                         case "NERPattern": // Start NERPattern... a free query in text file
-                            
+
                             log.info("");
                             log.info(" >> Loading Patterns...");
 
@@ -701,17 +785,19 @@ public class FileDiscoverer extends Discoverer {
                 log.info("    (ler 7 colunas: Tipo da Entidade, Risco, Probabilidade, Modelo, Pos. Inicial, Pos. Final, Entidade)\n");
 
                 ArrayList<String> tiposEncontrados = new ArrayList<String>();
-                int auxNrResultados = 0;
+                int tokenNr = 0;
                 for (ResultadoSuspeito rs : listaResultadoSuspeito) {
 
                     log.info(rs.toString()); // Check ResultadoSuspeito Class
+                    ef.escreverCSVResultado(caminho + nomeFicheiro, rs.getTipoEntidade(), rs.getClassificacaoRisco(), rs.getProbabilidade(), rs.getModelo(), rs.getPosInicial(), rs.getEntidade());
                     if (!tiposEncontrados.contains(rs.getTipoEntidade())) {
                         tiposEncontrados.add(rs.getTipoEntidade());
                     }
-                    auxNrResultados++;
+                    tokenNr++;
                 }
+
                 log.info("");
-                log.info("    Encontrados " + auxNrResultados + " tokens de " + handlerString.length() + " verificados");
+                log.info("    Encontrados " + tokenNr + " tokens de " + countWord + " verificados");
 
                 // Grau de Risco de acordo com o tipo de entidades descobertas
                 int auxMaxRisco = 0;
@@ -727,6 +813,8 @@ public class FileDiscoverer extends Discoverer {
 
                 result.setDictionariesFound(tiposEncontrados);
                 result.setGrauRisco(auxMaxRisco);
+                result.setTokenNr(tokenNr);
+                result.setCountWord(countWord);
                 fileMatches.add(result);
 
             } catch (NullPointerException npe) {
@@ -762,9 +850,56 @@ public class FileDiscoverer extends Discoverer {
         return false;
     }
 
-    private String getDocProcessType(String directory) {
-        return "batata"; //To change body of generated methods, choose Tools | Templates.
-        // TODO: Falta ligar à base de dados...
+    private String getDocProcessType(String fileName, Connection edoc) throws DatabaseAnonymizerException, SQLException {
+
+        String result = "";
+
+        String docId = new File(fileName).getParentFile().getName();
+        // prepare statement to edoclink database
+        PreparedStatement ps = edoc.prepareStatement(
+                "SELECT DS.template_name as [name]"
+                + "FROM DOCUMENT_VERSIONS_ALL DV "
+                + "JOIN DISTRIBUTION_STAGE_DOCUMENTS_ALL DSD ON (DSD.document_guid = DV.document_guid and DSD.document_version=DV.document_version) "
+                + "JOIN DISTRIBUTION_STAGES_ALL DS ON (DSD.distribution_stage=DS.id) "
+                + "WHERE DV.external_id=?");
+        ResultSet rs = ps.executeQuery(docId);
+
+        while (rs.next()) {
+            if (result == "") {
+                result = rs.getString("name");
+            } else {
+                result = "," + rs.getString("name");
+            }
+        }
+
+        return result;
+        /*
+        String[] t = new String[10];
+        t[0] = "Alpha";
+        t[1] = "Beta";
+        t[2] = "Charlie";
+        t[3] = "Delta";
+        t[4] = "Echo";
+        t[5] = "Foxtrot";
+        t[6] = "Golf";
+        t[7] = "Hotel";
+        t[8] = "India";
+        t[9] = "Juliet";
+        
+        Random r = new Random();
+        int v = r.nextInt(10);
+
+        String result = t[v];
+
+        if(r.nextInt(100) > 93)
+            result += "," + t[r.nextInt(10)];
+
+        if(r.nextInt(100) > 95)
+            result += "," + t[r.nextInt(10)];
+
+
+        return result;
+         */
     }
 
 }

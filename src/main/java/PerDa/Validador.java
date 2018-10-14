@@ -211,5 +211,16 @@ public class Validador {
         return (11 - sum % 11) % 10 == Character.getNumericValue(idCard.charAt(12));
 
     }
+    
+    public static boolean isValidNIB(String nib) {
+        char[] toValidate = nib.substring(0, 19).toCharArray();
+        Integer checkDigit = Integer.valueOf(nib.substring(19));
+        Integer[] wi = { 73, 17, 89, 38, 62, 45, 53, 15, 50, 5, 49, 34, 81, 76, 27, 90, 9, 30, 3 };
+        Integer sum = 0;
+        for (int i = 0; i < 19; i++) {
+            sum += Character.digit(toValidate[i], 10) * wi[i];
+        }
+        return checkDigit.equals(98 - (sum % 97));
+    }
 
 }

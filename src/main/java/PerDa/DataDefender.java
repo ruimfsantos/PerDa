@@ -19,6 +19,7 @@ import PerDa.database.IDBFactory;
 import static PerDa.utils.AppProperties.loadProperties;
 import PerDa.utils.ApplicationLock;
 import PerDa.utils.CommonUtils;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -63,12 +64,11 @@ public class DataDefender {
     @SuppressWarnings("unchecked")
     public static void main(final String[] args)
             throws ParseException, DataDefenderException, AnonymizerException,
-                IOException, SAXException, TikaException, java.text.ParseException,
-                Exception, java.lang.NullPointerException, java.lang.IllegalArgumentException {
+            IOException, SAXException, TikaException, java.text.ParseException,
+            Exception, java.lang.NullPointerException, java.lang.IllegalArgumentException {
 
         // Start run time execution
-        final long startTime = System.currentTimeMillis();
-
+        
         // Ensure we are not trying to run second instance of the same program
         final ApplicationLock al = new ApplicationLock("PerDa2Disco");
 
@@ -76,10 +76,10 @@ public class DataDefender {
             log.error("Another instance of this program is already active");
             System.exit(1);
         }
-        
-        log.info(CommonUtils.fixedLengthString('=', + 80));
+
+        log.info(CommonUtils.fixedLengthString('=', +80));
         log.info(" -> Command-line arguments: " + Arrays.toString(args));
-        log.info(CommonUtils.fixedLengthString('-', + 70));
+        log.info(CommonUtils.fixedLengthString('-', +70));
         final Options options = createOptions();
         final CommandLine line = getCommandLine(options, args);
 
@@ -98,63 +98,38 @@ public class DataDefender {
 
         final String cmd = unparsedArgs.get(0); // get & remove command arg
         unparsedArgs = unparsedArgs.subList(1, unparsedArgs.size());
-        
+
         // Verificar quais são as pastas partilhadas do computador
         List errors = new ArrayList();
+
+        preparaFicheiros();
+
         if ("file-discovery".equals(cmd)) {
-            errors = PropertyCheck.check(cmd, ' ');
-            if (errors.size() > 0) {
-                displayErrors(errors);
-                return;
-            }
-            
-            ArrayList<String> diretorios = new ArrayList<String>();
-            diretorios.add("\\\\127.0.0.1\\d$\\");
-            
-            InterfaceRede iur = new InterfaceRede();
-            iur.obterSharedFolders();
-            
-            // Gerar o ficheiro de propriedades automaticamente
-            //iur.gerarFileProperties(diretorios); //Tem de estar oculta porque não estou a gerar o ficheiro automaticamente
-            
-            // Fazer a descoberta dos ficheiros existentes na pasta directório
-            final String fileDiscoveryPropertyFile = line.getOptionValue('F', "filediscovery.properties");
-            final Properties fileDiscoveryProperties = loadProperties(fileDiscoveryPropertyFile);
-            final FileDiscoverer discoverer = new FileDiscoverer();
-            discoverer.descobertaFicheiros(fileDiscoveryProperties);
-            Scanner scan = new Scanner(System.in); //scanner for input
-            
-            // Depois da identificação dos ficheiros existentes questionar se pretende analisá-los
-            char a = 'a';
-            do {
-                log.info("");
-                log.info(CommonUtils.fixedLengthString('=', + 80));
-                log.info(" -> Pretende analisar os ficheiros supracitados? (y/n)\n    ");
-                a = scan.next().charAt(0);
-            } while (a != 'Y' && a != 'y' && a != 'N' && a != 'n');
-
-            if (a == 'Y' || a == 'y') {
-                discoverer.discover(fileDiscoveryProperties);
-            }
-                  
-            return;
-
+            fileDiscovery(errors, cmd, line);
         }
 
+        if ("database-discovery".equals(cmd)) {
+            databaseDiscovery(line, cmd, unparsedArgs, options);
+        }
+
+    }
+
+    public static boolean databaseDiscovery(final CommandLine line, final String cmd, List<String> unparsedArgs, final Options options) throws DataDefenderException, AnonymizerException, java.text.ParseException, IOException {
+        List errors;
         errors = PropertyCheck.checkDtabaseProperties();
         if (errors.size() > 0) {
             displayErrors(errors);
-            return;
+            return true;
         }
         final Properties props = loadProperties(line.getOptionValue('P', "db.properties"));
-        try (final IDBFactory dbFactory = IDBFactory.get(props);) {
+        try (final IDBFactory dbFactory = IDBFactory.get(props)) {
             switch (cmd) {
                 case "database-discovery":
                     if (line.hasOption('c')) {
                         errors = PropertyCheck.check(cmd, 'c');
                         if (errors.size() > 0) {
                             displayErrors(errors);
-                            return;
+                            return true;
                         }
                         final String columnPropertyFile = line.getOptionValue('C', "columndiscovery.properties");
                         final Properties columnProperties = loadProperties(columnPropertyFile);
@@ -167,7 +142,7 @@ public class DataDefender {
                         errors = PropertyCheck.check(cmd, 'd');
                         if (errors.size() > 0) {
                             displayErrors(errors);
-                            return;
+                            return true;
                         }
                         final String datadiscoveryPropertyFile = line.getOptionValue('D', "datadiscovery.properties");
                         final Properties dataDiscoveryProperties = loadProperties(datadiscoveryPropertyFile);
@@ -178,35 +153,45 @@ public class DataDefender {
                         }
                     }
                     break;
-
                 default:
                     help(options);
                     break;
             }
         }
 
-        final long endTime = System.currentTimeMillis();
-
-        final NumberFormat formatter = new DecimalFormat("#0.00");
-        log.info(CommonUtils.fixedLengthString('-', + 70));
-        log.info(" -> Struture Data Scan completed");
-        log.info("");
-        log.info("    Execution time: " + formatter.format((endTime - startTime) / 1000d) + " seconds");
-        
-        DateFormat dateFormat = new SimpleDateFormat("E, d MMM HH:mm:ss '('zZ')' y"); // semana, dia mês hora fuzo ano
-	Date date = new Date();
-	log.info("    Finished at   : " + dateFormat.format(date));
-        log.info(CommonUtils.fixedLengthString('=', + 80));
-        
+        return false;
     }
 
-    /**
-     * Parses command line arguments
-     *
-     * @param options
-     * @param args
-     * @return CommandLine
-     */
+    private static void preparaFicheiros() {
+        // Remover os ficheiros para gerar página WEB
+        File fileResumo = new File("PerDaInterface/public_html/Resumo.csv");
+        if (fileResumo.exists()) {
+            fileResumo.delete();
+        }
+
+        File fileResultado = new File("PerDaInterface/public_html/Resultado.csv");
+        if (fileResultado.exists()) {
+            fileResultado.delete();
+        }
+
+        File fileExtensao = new File("PerDaInterface/public_html/Extensao.csv");
+        if (fileExtensao.exists()) {
+            fileExtensao.delete();
+        }
+
+        File fileGovernacao = new File("PerDaInterface/public_html/Governacao.csv");
+        if (fileGovernacao.exists()) {
+                fileGovernacao.delete();
+        }
+    }
+    
+        /**
+         * Parses command line arguments
+         *
+         * @param options
+         * @param args
+         * @return CommandLine
+         */
     private static CommandLine getCommandLine(final Options options, final String[] args) {
         final CommandLineParser parser = new GnuParser();
         CommandLine line = null;
@@ -281,7 +266,7 @@ public class DataDefender {
             log.info(err);
         }
     }
-    
+
     public static int getClassificacaoRisco(String tipoEntidade) {
         int risco = 0;
         switch (tipoEntidade) {
@@ -300,17 +285,17 @@ public class DataDefender {
             case "Telefone":
             case "Organizacao":
             case "Organization":
+            case "EMAIL":
                 risco = 1;
                 break;
-                
+
             case "CCidadao":
             case "NIF":
             case "NISS":
-            case "EMAIL":
             case "CConducao":
             case "IBAN":
             case "NIB":
-            case "CCredito":    
+            case "CCredito":
             case "PCI-VISA":
             case "PCI-Master":
             case "PCI-AmEx":
@@ -329,13 +314,84 @@ public class DataDefender {
             case "Saude":
                 risco = 5;
                 break;
-                
+
             default:
                 risco = 0;
                 break;
-
         }
 
         return risco;
+    }
+
+    public static void fileDiscovery(List errors, String cmd, CommandLine line) throws DataDefenderException, IOException, SAXException, TikaException, NullPointerException, Exception {
+        errors = PropertyCheck.check(cmd, ' ');
+        if (errors.size() > 0) {
+            displayErrors(errors);
+            return;
+        }
+
+        ArrayList<String> diretorios = new ArrayList<String>();
+        diretorios.add("\\\\127.0.0.1\\d$\\");
+
+        InterfaceRede iur = new InterfaceRede();
+        iur.obterSharedFolders();
+
+        // Gerar o ficheiro de propriedades automaticamente
+        //iur.gerarFileProperties(diretorios); //Tem de estar oculta porque não estou a gerar o ficheiro automaticamente
+        // Fazer a descoberta dos ficheiros existentes na pasta directório
+        final String fileDiscoveryPropertyFile = line.getOptionValue('F', "filediscovery.properties");
+        final Properties fileDiscoveryProperties = loadProperties(fileDiscoveryPropertyFile);
+        final FileDiscoverer discoverer = new FileDiscoverer();
+        discoverer.descobertaFicheiros(fileDiscoveryProperties);
+        Scanner scan = new Scanner(System.in); //scanner for input
+
+        // Depois da identificação dos ficheiros existentes questionar se pretende analisá-los
+        char a = 'a';
+        do {
+            log.info("");
+            log.info(CommonUtils.fixedLengthString('=', +80));
+            log.info(" -> Pretende analisar os ficheiros supracitados? (y/n)\n    ");
+            a = scan.next().charAt(0);
+        } while (a != 'Y' && a != 'y' && a != 'N' && a != 'n');
+
+        if (a == 'Y' || a == 'y') {
+            discoverer.discover(fileDiscoveryProperties);
+        }
+
+        return;
+
+    }
+
+    public static void webFileDiscovery(Properties fileDiscoveryProperties) throws DataDefenderException, IOException, SAXException, TikaException, NullPointerException, Exception {
+
+        preparaFicheiros();
+
+//            ArrayList<String> diretorios = new ArrayList<String>();
+//            diretorios.add("\\\\127.0.0.1\\d$\\");
+//            InterfaceRede iur = new InterfaceRede();
+//            iur.obterSharedFolders();
+        // Gerar o ficheiro de propriedades automaticamente
+        //iur.gerarFileProperties(diretorios); //Tem de estar oculta porque não estou a gerar o ficheiro automaticamente
+        // Fazer a descoberta dos ficheiros existentes na pasta directório
+//            final String fileDiscoveryPropertyFile = line.getOptionValue('F', "filediscovery.properties");
+//            final Properties fileDiscoveryProperties = loadProperties(fileDiscoveryPropertyFile);
+        final FileDiscoverer discoverer = new FileDiscoverer();
+        discoverer.descobertaFicheiros(fileDiscoveryProperties);
+//            Scanner scan = new Scanner(System.in); //scanner for input
+
+        // Depois da identificação dos ficheiros existentes questionar se pretende analisá-los
+//            char a = 'a';
+//            do {
+//                log.info("");
+//                log.info(CommonUtils.fixedLengthString('=', +80));
+//                log.info(" -> Pretende analisar os ficheiros supracitados? (y/n)\n    ");
+//                a = scan.next().charAt(0);
+//            } while (a != 'Y' && a != 'y' && a != 'N' && a != 'n');
+//            if (a == 'Y' || a == 'y') {
+        discoverer.discover(fileDiscoveryProperties);
+//            }
+
+        return;
+
     }
 }

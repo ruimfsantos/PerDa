@@ -57,6 +57,28 @@ public class ReportUtil {
         return rowCount;
     }
     
+    public static int columnCount(final IDBFactory factory, final String tableName) {
+        
+        final ISQLBuilder sqlBuilder = factory.createSQLBuilder();
+        final String table = sqlBuilder.prefixSchema(tableName);
+
+        // Getting number of records in the table                
+        final String queryCount = sqlBuilder.buildSelectWithLimit("SELECT count(*) " + " FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+ table + "'", 0);
+        log.debug("Executing query against database: " + queryCount);
+
+        int rowCount = 0;
+        try (Statement stmt = factory.getConnection().createStatement();
+            ResultSet resultSet = stmt.executeQuery(queryCount); ) 
+        {
+            resultSet.next();
+            rowCount = resultSet.getInt(1);
+        } catch (SQLException sqle) {
+            log.error(sqle.toString());
+        }        
+        
+        return rowCount;
+    }
+    
     public static List<String> sampleData(final IDBFactory factory, final String tableName, final String columnName) {
         final ISQLBuilder sqlBuilder = factory.createSQLBuilder();
         

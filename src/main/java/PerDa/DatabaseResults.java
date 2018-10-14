@@ -36,7 +36,7 @@ public class DatabaseResults {
         this.probabilidade = probabilidade;
         this.campos = campos;
         this.tipoColuna = tipoColuna;
-
+        
     }
     
     public String getTipoColuna() {
@@ -84,28 +84,35 @@ public class DatabaseResults {
     }
 
     public void setGrauRisco(int grauRisco) {
-        this.grauRisco = grauRisco;
+        this.grauRisco = DataDefender.getClassificacaoRisco(tipoColuna);
     }
 
     @Override
     // Para imprimir no dataLogs
     public String toString() {
        String aux = "";
-       aux += "[";
+       //aux += "[";
        for(String c : this.campos){
            aux += c + ", ";
        }
        
        aux = aux.substring(0, aux.length()-2);
-       aux += "]";
+       //aux += "]";
        return aux;
     }
     
     // Para escrever no ficheiro CSV
     public String camposToString(){
         String aux = "";
-       for(String c : this.campos){
-           aux+=c + ", ";
+        Boolean jaEncontrei;
+       for(int i=0; i< this.campos.size(); i++){
+           jaEncontrei = false;
+           for(int j= i-1; j>=0; j--){
+               if(this.campos.get(j).equals(this.campos.get(i)))
+                   jaEncontrei = true;
+           }
+           if(!jaEncontrei)
+            aux+=this.campos.get(i) + ", ";
        }
        
        aux=aux.substring(0, aux.length()-2);

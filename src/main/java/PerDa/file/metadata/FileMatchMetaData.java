@@ -41,6 +41,8 @@ public class FileMatchMetaData {
     private ArrayList<String> dictionariesFound = new ArrayList<String>();
     private int grauRisco;
     private final String repository;
+    private int tokenNr;
+    private int countWord;
 
     public FileMatchMetaData(final String directory, final String fileName, final String repository) {
         this.directory = directory;
@@ -56,10 +58,19 @@ public class FileMatchMetaData {
         return this.fileName;
     }
 
+    public String getFileExtension() {
+        //return Filenameutils.getExtension(this.fileName);
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
+        } else {
+            return "";
+        }
+    }
+
     public String getRepository() {
         return this.repository;
     }
-  
+
     public void setAverageProbability(final double averageProbability) {
         this.averageProbability = averageProbability;
     }
@@ -95,7 +106,22 @@ public class FileMatchMetaData {
         this.grauRisco = grauRisco;
     }
 
-    
+    public int getTokenNr() {
+        return tokenNr;
+    }
+
+    public void setTokenNr(int tokenNr) {
+        this.tokenNr = tokenNr;
+    }
+
+    public int getCountWord() {
+        return countWord;
+    }
+
+    public void setCountWord(int countWord) {
+        this.countWord = countWord;
+    }
+
     @Override
     public String toString() {
         return this.directory + "." + this.fileName;
