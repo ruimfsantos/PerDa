@@ -1,4 +1,7 @@
-## Personalizar uma Consulta EspecÌfica pretendida ##
-## N„o È recomendado utilizar palavras simples. Poder· induzir a falsos positivos.. ##
+## Personalizar uma Consulta Espec√≠fica pretendida ##
+## N√£o √© recomendado utilizar palavras simples. Poder√° induzir a falsos positivos.. ##
 Substitua este texto pelo pretendido.
-Poder· colocar as linhas que quiser... mas n„o dever· deixar nenhuma linha em branco.
+Poder√° colocar as linhas que quiser... mas n√£o dever√° deixar nenhuma linha em branco.
+
+Caso pretenda construir padr√µes de consulta, recomenda-se que siga o link:
+https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
