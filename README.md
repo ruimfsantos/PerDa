@@ -8,6 +8,7 @@ Tabela de conteúdos
 - [Compilar](#Compilar)
 - [Contribua](#Contribua)
 - [Executar](#Executar)
+- [Resultados](#Resultados)
 
 
 Aviso
